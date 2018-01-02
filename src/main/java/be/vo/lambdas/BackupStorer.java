@@ -25,14 +25,15 @@ public class BackupStorer implements RequestHandler<FormBackup, String>{
 
     Logger log = Logger.getLogger( BackupStorer.class );
 
+    //NOTE: This lambda needs atleast 512MB of memory
     public String handleRequest( FormBackup formBackup, Context context ){
         Map<String, String> env = System.getenv();
 
         String accessKey =  env.get( "S3_KEY" );
         String accessSecret =  env.get( "S3_SECRET" );
 
-        if( !StringUtils.isNullOrEmpty( accessKey ) && !StringUtils.isNullOrEmpty( accessSecret ) )
-            log.info( "Environment variables loaded..." );
+        if( StringUtils.isNullOrEmpty( accessKey ) || StringUtils.isNullOrEmpty( accessSecret ) )
+            return "No enviroment variables found...";
 
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, accessSecret);
 
