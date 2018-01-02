@@ -42,11 +42,16 @@ public class LambdaInvoker{
         String payload = mapper.writeValueAsString(formBackup);
 
         InvokeRequest request = new InvokeRequest();
-        request.setInvocationType("Event");
+        request.setInvocationType("RequestResponse");
         request.withFunctionName(lambdaName).withPayload(payload);
         InvokeResult invoke = client.invoke(request);
 
-        System.out.println( "done" );
+        try {
+            String val = new String(invoke.getPayload().array(), "UTF-8");
+            System.out.println("Response==> " + val);
+        } catch (Exception e) {
+            System.out.println("error");
+        }
     }
 
     public static void main(String[] args) throws JsonProcessingException{
