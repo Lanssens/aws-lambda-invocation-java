@@ -1,5 +1,5 @@
 package be.lanssens.lambdas;
 
-public class BackupRetriever{
+public class FileRetrieveLambda{
     //TODO: Data Retriever
 }

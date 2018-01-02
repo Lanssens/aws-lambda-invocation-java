@@ -22,16 +22,16 @@ import java.util.Map;
 
 import static org.apache.commons.net.util.Base64.decodeBase64;
 
-public class BackupStorer implements RequestHandler<FormBackup, String>{
+public class S3FileStoreLambda implements RequestHandler<FormBackup, String>{
 
-    Logger log = Logger.getLogger( BackupStorer.class );
+    Logger log = Logger.getLogger( S3FileStoreLambda.class );
 
     //NOTE: This lambda needs atleast 512MB of memory
     public String handleRequest( FormBackup formBackup, Context context ){
         Map<String, String> env = System.getenv();
 
-        String accessKey =  env.get( "S3_KEY" );
-        String accessSecret =  env.get( "S3_SECRET" );
+        String accessKey =  env.get( "AWS_LAMBDA_ACCESS_KEY" );
+        String accessSecret =  env.get( "AWS_LAMBDA_ACCESS_SECRET" );
 
         if( StringUtils.isNullOrEmpty( accessKey ) || StringUtils.isNullOrEmpty( accessSecret ) )
             return "No enviroment variables found...";

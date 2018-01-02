@@ -1,5 +1,5 @@
 package be.lanssens.lambdas;
 
-public class FlowHandler{
+public class DataFlowLambda{
     //TODO: Add flowhandler
 }
