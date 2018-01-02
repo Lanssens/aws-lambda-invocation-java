@@ -1,4 +1,4 @@
-package be.vo.models;
+package be.lanssens.models;
 
 public class SimplePOJO{
     private String firstName;

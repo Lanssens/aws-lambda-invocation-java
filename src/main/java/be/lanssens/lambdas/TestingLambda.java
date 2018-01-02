@@ -1,6 +1,6 @@
-package be.vo.lambdas;
+package be.lanssens.lambdas;
 
-import be.vo.models.SimplePOJO;
+import be.lanssens.models.SimplePOJO;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
