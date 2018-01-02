@@ -43,7 +43,7 @@ public class LambdaInvoker{
 
         InvokeRequest request = new InvokeRequest();
         request.setInvocationType("Event");
-        request.withFunctionName("lanssth-store-file-on-S3-with-java").withPayload(payload);
+        request.withFunctionName(lambdaName).withPayload(payload);
         InvokeResult invoke = client.invoke(request);
 
         System.out.println( "done" );
