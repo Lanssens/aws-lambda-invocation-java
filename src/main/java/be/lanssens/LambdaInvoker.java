@@ -1,0 +1,54 @@
+package be.vo;
+
+import be.vo.models.FormBackup;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.lambda.AWSLambdaAsyncClient;
+import com.amazonaws.services.lambda.model.InvokeRequest;
+import com.amazonaws.services.lambda.model.InvokeResult;
+import com.amazonaws.util.StringUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Map;
+
+public class LambdaInvoker{
+
+    public LambdaInvoker() throws JsonProcessingException{
+        Map<String, String> env = System.getenv();
+
+        String accessKey =  env.get( "S3_KEY" );
+        String accessSecret =  env.get( "S3_SECRET" );
+
+        if( StringUtils.isNullOrEmpty( accessKey ) && StringUtils.isNullOrEmpty( accessSecret ) )
+            System.out.println("System variables not found");
+
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey, accessSecret);
+
+        AWSLambdaAsyncClient client = new AWSLambdaAsyncClient(credentials);
+        Region region = Region.getRegion( Regions.EU_WEST_1);
+        client.withRegion( region );
+
+        FormBackup formBackup = new FormBackup();
+        formBackup.setBase64Value( "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" );
+        formBackup.setFileName( "test.png" );
+        formBackup.setS3BucketUrl( "vo-eforms-backup-storage-test003" );
+
+        ObjectMapper mapper = new ObjectMapper();
+        String payload = mapper.writeValueAsString(formBackup);
+
+        InvokeRequest request = new InvokeRequest();
+        request.setInvocationType("Event");
+        request.withFunctionName("lanssth-store-file-on-S3-with-java").withPayload(payload);
+        InvokeResult invoke = client.invoke(request);
+
+
+        System.out.println( "done" );
+    }
+
+    public static void main(String[] args) throws JsonProcessingException{
+        LambdaInvoker lambdaInvoker = new LambdaInvoker();
+    }
+}
